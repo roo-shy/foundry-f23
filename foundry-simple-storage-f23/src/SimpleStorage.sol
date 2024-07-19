@@ -1,4 +1,4 @@
-SPDX-License-Identifier: MIT
+SPDX - License - Identifier: MIT
 
 pragma solidity 0.8.19;
 
@@ -18,7 +18,7 @@ contract SimpleStorage {
         myFavoriteNumber = _favoriteNumber;
     }
 
-    function retrieve() public view returns (uint256) {
+    function retrieve() public view returns(uint256) {
         return myFavoriteNumber;
     }
 
