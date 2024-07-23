@@ -1,5 +1,15 @@
 // SPDX - License - Identifier: MIT
 
-pragma solidity >=0.8.0 <0.9.0;
+pragma solidity ^0.8.18;
 
-contract DeploySimpleStorage {}
+import {Script} from "forge-std/Script.sol";
+import {SimpleStorage} from "../src/SimpleStorage.sol";
+
+contract DeploySimpleStorage is Script {
+    function run() returns (SimpleStorage) {
+        vm.startBroadcast();
+        SimpleStorage simpleStorage = new SimpleStorage();
+        vm.stopBroadcast();
+        return simpleStorage;
+    }
+}
