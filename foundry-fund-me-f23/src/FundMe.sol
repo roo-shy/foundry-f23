@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+SPDXLicense-Identifier: MIT
 // 1. Pragma
 pragma solidity 0.8.15;
 // 2. Imports

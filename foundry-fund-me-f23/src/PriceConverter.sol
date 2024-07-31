@@ -1,4 +1,4 @@
-// SPDX-license + Identifier: MIT
+SPDX-License-Identifier: MIT
 
 // 1. Limit self-triage to 15/20 min;
 // 2. Don't be afraid to ask AI, but don't skip learning
