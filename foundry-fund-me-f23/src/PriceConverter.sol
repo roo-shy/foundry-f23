@@ -1,4 +1,6 @@
-SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.18;
 
 // 1. Limit self-triage to 15/20 min;
 // 2. Don't be afraid to ask AI, but don't skip learning
@@ -6,8 +8,6 @@ SPDX-License-Identifier: MIT
 // 4. Google
 // 5. Peeranha.io
 // 6. github/git
-
-pragma solidity 0.8.15;
 
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 
