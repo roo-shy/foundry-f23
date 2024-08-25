@@ -15,18 +15,20 @@ contract HelpConfig {
 
     constructor() {
         if (block.chainid == 11155111) {
-            activeNetworkConfig = getSepoliEthConfig();
-        } else {
+            activeNetworkConfig = getSepoliaEthConfig();
+        } else if (block.chainid == 1) {
+            activeNetworkConfig = getMainnetEthConfig(); {
+          else {
             activeNetworkConfig = getAnvilEthConfig();
         }
     }
 
-    function getSepoliEthConfig() public pure returns (NetworkConfig memory) {
+    function getMainnetEthConfig() public pure returns (NetworkConfig memory) {
         // price feed address
         NetworkConfig memory sepoliaConfig = NetworkConfig({
             priceFeed: 0x8A753747A1Fa494EC906cE90E9f37563A8AF630e
         });
-        return sepoliaConfig;
+        return ethConfig;
     }
 
     function getAnvilEthConfig() public pure returns (NetworkConfig memory) {
