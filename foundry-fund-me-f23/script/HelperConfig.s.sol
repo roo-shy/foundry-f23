@@ -3,6 +3,7 @@
 pragma solidity ^0.8.15;
 
 import {Script} from "forge-std/Script.sol";
+import {MockV3Aggregator} from "../test/mocks/MockV3Aggregator.sol"
 
 contract HelpConfig is Script {
     // If we are on a local anvil, we deploy mocks
@@ -38,7 +39,13 @@ contract HelpConfig is Script {
         // 2. Return the mock address
 
         vm.startBroadcast();
-
+        MockV3Aggregator mockPriceFeed = new MockV3Aggregator(8,2000e8);
         vm.stopBroadcast();
+
+        NetworkConfig memory anvilConfig = NetworkConfig({
+            priceFeed: address(mockPriceFeed)
+        });
     }
+
+
 }
