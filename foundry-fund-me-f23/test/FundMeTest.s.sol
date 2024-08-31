@@ -10,4 +10,6 @@ function testFundFailsWithoutEnoughEth() public {
     fundMe.fund();
 }
 
-function testFundUpdatesFundedDataStructure() public {}
+function testFundUpdatesFundedDataStructure() public {
+    fundMe.fund{value: 10e18}();
+}
