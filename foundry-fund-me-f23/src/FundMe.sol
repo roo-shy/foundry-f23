@@ -3,12 +3,14 @@
 pragma solidity ^0.8.18;
 
 // 2. Imports
-
+import {Test, console} from "forge-std/Test.sol";
+import {FundMe} from "../src/FundMe.sol";
+import {DeployFundMe} from "../script/DeployFundMe.s.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "../PriceConverter.sol";
 
 // 3. Interfaces, Libraries, Contracts
-error FundMe_NotOwner();
+// error FundMe_NotOwner();
 
 /**
  * @title A sample Funding Contract
@@ -16,7 +18,11 @@ error FundMe_NotOwner();
  * @notice This contract is for creating a sample funding contract
  * @dev This implements price feeds as our library
  */
-contract FundMe {
+contract FundMeTest is Test {
+    FundMe fundMe;
+
+    address USER = makeAddr("user");
+    //fundMe = new FundMe(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
     // Type Declarations
     using PriceConverter for uint256;
 
