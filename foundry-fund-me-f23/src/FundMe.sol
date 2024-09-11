@@ -22,6 +22,9 @@ contract FundMeTest is Test {
     FundMe fundMe;
 
     address USER = makeAddr("user");
+    uint256 constant SEND_VALUE = 0.1 ether;
+
+    address USER = makeAddr("user");
     //fundMe = new FundMe(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
     // Type Declarations
     using PriceConverter for uint256;
@@ -131,5 +134,13 @@ contract FundMeTest is Test {
 
     function getPriceFeed() public view returns (AggregatorV3Interface) {
         return s_priceFeed;
+    }
+
+    function testFundUpdatesFundedDataStructure() public {
+        vm.prank(USER); // tx will be sent by USER
+        fundMe.fund{value: SEND_VALUE}();
+
+        uint256 amountFunded = fundMe.getAddressToAmountFunded(USER);
+        assertEq(amountFunded, SEND_VALUE);
     }
 }
