@@ -1,17 +1,17 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.18;
+pragma solidity ^0.8.20;
 
 // 2. Imports
 import {Test, console} from "forge-std/Test.sol";
-import {FundMe} from "../src/FundMe.sol";
+// import {FundMe} from "../src/FundMe.sol";
 import {DeployFundMe} from "../script/DeployFundMe.s.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
-import {PriceConverter} from "../PriceConverter.sol";
+
+// import {PriceConverter} from "../PriceConverter.sol";
 
 // 3. Interfaces, Libraries, Contracts
 // error FundMe_NotOwner();
-
 /**
  * @title A sample Funding Contract
  * @author Patrick Collins
@@ -23,18 +23,26 @@ contract FundMeTest is Test {
 
     address USER = makeAddr("user");
     uint256 constant SEND_VALUE = 0.1 ether;
+    uint256 constant STARTING_BALANCE = 10 ether;
 
-    address USER = makeAddr("user");
+    function setUp() external {
+        //fundMe = new FundMe(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
+        DeployFundMe deployFundMe = new DeployFundMe();
+        fundMe = deployFundMe.run();
+        vm.deal(USER, STARTING_BALANCE);
+    }
+
+    // address USER = makeAddr("user");
     //fundMe = new FundMe(0x8A753747A1Fa494EC906cE90E9f37563A8AF630e);
     // Type Declarations
-    using PriceConverter for uint256;
+    // using PriceConverter for uint256;
 
     // State variables
-    uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
-    address private immutable i_owner;
-    address[] private s_funders;
-    mapping(address => uint256) private s_addressToAmountFunded;
-    AggregatorV3Interface private s_priceFeed;
+    // uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
+    // address private immutable i_owner;
+    // address[] private s_funders;
+    // mapping(address => uint256) private s_addressToAmountFunded;
+    // AggregatorV3Interface private s_priceFeed;
 
     // Events (we have none!)
 
