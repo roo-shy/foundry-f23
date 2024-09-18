@@ -39,10 +39,10 @@ contract FundMeTest is Test {
 
     // State variables
     // uint256 public constant MINIMUM_USD = 5 * 10 ** 18;
-    // address private immutable i_owner;
-    // address[] private s_funders;
-    // mapping(address => uint256) private s_addressToAmountFunded;
-    // AggregatorV3Interface private s_priceFeed;
+    address private immutable i_owner;
+    address[] private s_funders;
+    mapping(address => uint256) private s_addressToAmountFunded;
+    AggregatorV3Interface private s_priceFeed;
 
     // Events (we have none!)
 
@@ -160,12 +160,30 @@ contract FundMeTest is Test {
         assertEq(funder, USER);
     }
 
-    function testOnlyOwnerCanWithdraw() public {
-        vm.prank(USER); // tx will be sent by USER
-        fundMe.fund{value: SEND_VALUE}();
-
-        vm.expectRevert();
+    modifier funded() {
         vm.prank(USER);
+        fundMe.fund{value: SEND_VALUE}();
+        _;
+    }
+
+    function testOnlyOwnerCanWithdraw() public funded {
+        vm.prank(USER);
+        vm.expectRevert();
         fundMe.withdraw();
+    }
+
+    function testWithDrawWithASingleFunder() public funded {
+        // Arrange
+        uint256 startingOwnerBalance = fundMe.getOwner().balance;
+        uint256 startingFundMeBalance = address(fundMe).balance;
+        // Act
+        vm.prank(fundMe.getOwner());
+        fundMe.withdraw();
+
+        // Assert
+        uint256 endingOwnerBalance = fundMe.getOwner().balance;
+        uint256 endingFundMeBalance = address(fundMe).balance;
+        assertEq(endingOwnerBalance, 0);
+        assertEq(startingFundMeBalance + startingOwnerBalance, endingFundMeBalance)
     }
 }
