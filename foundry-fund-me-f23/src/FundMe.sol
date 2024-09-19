@@ -2,7 +2,6 @@
 
 pragma solidity ^0.8.20;
 
-// 2. Imports
 import {Test, console} from "forge-std/Test.sol";
 // import {FundMe} from "../src/FundMe.sol";
 import {DeployFundMe} from "../script/DeployFundMe.s.sol";
@@ -12,12 +11,7 @@ import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interf
 
 // 3. Interfaces, Libraries, Contracts
 // error FundMe_NotOwner();
-/**
- * @title A sample Funding Contract
- * @author Patrick Collins
- * @notice This contract is for creating a sample funding contract
- * @dev This implements price feeds as our library
- */
+
 contract FundMeTest is Test {
     FundMe fundMe;
 
