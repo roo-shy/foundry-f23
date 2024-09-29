@@ -26,7 +26,7 @@ library PriceCoverter {
         uint256 ethAmount,
         AggregatorV3Interface priceFeed
     ) internal view returns (uint256) {
-        uint256 ethPrice = getPrice();
+        uint256 ethPrice = uint256(getPrice(priceFeed));
         uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1e18;
         return ethAmountInUsd;
     }
