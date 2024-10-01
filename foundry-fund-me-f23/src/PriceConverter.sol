@@ -37,3 +37,9 @@ library PriceCoverter {
                 .version();
     }
 }
+
+//State Variables − Variables whose values are permanently stored in a contract storage.
+
+//Local Variables − Variables whose values are present till function is executing.
+
+//Global Variables − Special variables exists in the global namespace used to get information about the blockchain.
