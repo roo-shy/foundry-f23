@@ -178,6 +178,9 @@ contract FundMeTest is Test {
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingOwnerBalance, 0);
-        assertEq(startingFundMeBalance + startingOwnerBalance, endingFundMeBalance)
+        assertEq(
+            startingFundMeBalance + startingOwnerBalance,
+            endingFundMeBalance
+        );
     }
 }
