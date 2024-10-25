@@ -6,6 +6,7 @@
 // Type declarations
 // State variables
 // Events
+
 // Modifiers
 // Functions
 
@@ -36,7 +37,9 @@ contract Raffle {
     uint256 private immutable s_entranceFee;
     address payable[] private s_players;
 
-    // what data structure should we use to store the participants?
+   /** Events */
+   event EnteredRaffle(address indexed player);
+
 
 
     constructor(uint256 entranceFee) {
@@ -50,8 +53,9 @@ contract Raffle {
         }
 
         s_players.push(payable(msg.sender));
-        // Events making migration easier
-        // Makes indexing easier for the front end
+        // 1. Events making migration easier
+        // 2. Makes indexing easier for the front end
+        emit EnteredRaffle(msg.sender);
     }
 
     function pickWinner() public {}
