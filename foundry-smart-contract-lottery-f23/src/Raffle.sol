@@ -35,10 +35,12 @@ contract Raffle {
     error Raffle__NotEnoughEthSent();
 
     /** State Variables */
-    uint256 private constant REQUEST_CONFIRMATIONS = 3;
+    uint16 private constant REQUEST_CONFIRMATIONS = 3;
+    uint32 private constant NUM_WORDS = 1;
 
     uint256 private immutable s_entranceFee;
     uint256 private immutable s_interval;
+    VRFCoordinatorV2Interface private immutable i_vrfCoordinator;
     address private immutable i_vrfCoordinator;
     bytes32 private immutable i_gasLane;
     uint64 private immutable i_subscriptionId;
@@ -56,11 +58,12 @@ contract Raffle {
         address vrfCoordinator, 
         bytes32 gasLane,
         uint64 i_subscriptionId,
-        uint32 callbackGasLimit,
+        uint32 callbackGasLimit
         ) {
         i_entranceFee = entranceFee;
         i_interval = interval;
-        i_vrfCoordinator = vrfCoordinator;
+        i_interval = interval;
+        i_vrfCoordinator = VRFCoordinatorV2Interface(vrfCoordinator);
         i_gasLane = gasLane;
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
