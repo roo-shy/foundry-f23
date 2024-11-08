@@ -59,7 +59,7 @@ contract Raffle {
         bytes32 gasLane,
         uint64 i_subscriptionId,
         uint32 callbackGasLimit
-        ) {
+        ) VRFConsumerBaseV2(vrfCoordinator){
         i_entranceFee = entranceFee;
         i_interval = interval;
         i_interval = interval;
@@ -92,13 +92,15 @@ function pickWinner() public {
             i_subscriptionId,
             REQUEST_CONFIRMATIONS,
             i_callbackGasLimit,
-            numWords
+            NUM_WORDS
         );
+    }
 
-    // 1. Request the RNG
-    // 2. Get the random number
-
-}
+    function fulfillRandomWords(
+        uint256 requestId,
+        uint256[] memory randomWords
+    ) interval override {}
+     // s_players = 10;
     /** Getter Function */
 
     function getEntranceFee() external view returns(uint256){
