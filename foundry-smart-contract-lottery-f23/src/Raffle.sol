@@ -34,6 +34,18 @@ pragma solidity ^0.8.18;
 contract Raffle {
     error Raffle__NotEnoughEthSent();
     error Raffle__TransferFailed();
+    error Raffle_RaffleNotOpen();
+
+    // bool lotteryState = open, closed, calculating
+    /* Type declarations */
+    enum RaffleState {
+        OPEN,    //0
+        CALCULATING  // 1
+        // 
+
+    }
+
+
 
     /** State Variables */
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
@@ -49,7 +61,9 @@ contract Raffle {
 
     address payable[] private s_players;
     uint256 private  s_lastTimeStamp;
-    address private s_winner;
+    address private s_recentWinner;
+    RaffleState private s_raffleState;
+
 
    /** Events */
    event EnteredRaffle(address indexed player);
@@ -69,6 +83,8 @@ contract Raffle {
         i_gasLane = gasLane;
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
+
+        s_raffelState = RaffleState.OPEN;
         s_lastTimeStamp = block.timestamp;
     }
 
@@ -76,6 +92,9 @@ contract Raffle {
         // require(msg.value >= i_entranceFee, "Not enough ETH sent!")
         if(msg.value < i_entranceFee) {
             revert Raffle__NotEnoughEthSent();
+        }
+        if (s_raffleState != RaffleState.OPEN) {
+            revert Raffle_RaffleNotOpen();
         }
 
         s_players.push(payable(msg.sender));
@@ -89,6 +108,7 @@ function pickWinner() public {
     if((block.timestamp - s_lastTimeStamp) < i_interval) {
        revert();
     }
+    s_raffelState = RaffleState.CALCULATING;
       uint256 requestId = i_vrfCoordinator.requestRandomWords(
             i_gasLane,
             i_subscriptionId,
@@ -109,6 +129,7 @@ function pickWinner() public {
      uint256 indexOfWinner = randomwords[0] % s_players.length;
      address payable winner = s_players[indexOfWinner];
      s_recentWinner = winner;
+     s_raffeState = RaffleState.OPEN;
      (bool success,) = winner.call{value: address(this).balance}("");
      if(!success) {
         revert Raffle__TransferFailed();
