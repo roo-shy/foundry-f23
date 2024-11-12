@@ -33,6 +33,7 @@ pragma solidity ^0.8.18;
 
 contract Raffle {
     error Raffle__NotEnoughEthSent();
+    error Raffle__TransferFailed();
 
     /** State Variables */
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
@@ -48,6 +49,7 @@ contract Raffle {
 
     address payable[] private s_players;
     uint256 private  s_lastTimeStamp;
+    address private s_winner;
 
    /** Events */
    event EnteredRaffle(address indexed player);
@@ -101,6 +103,17 @@ function pickWinner() public {
         uint256[] memory randomWords
     ) interval override {}
      // s_players = 10;
+     // rng = 12
+     // 12 % 10 = 2 <- 
+     // 123403u353u5iu3583u5up3u
+     uint256 indexOfWinner = randomwords[0] % s_players.length;
+     address payable winner = s_players[indexOfWinner];
+     s_recentWinner = winner;
+     (bool success,) = winner.call{value: address(this).balance}("");
+     if(!success) {
+        revert Raffle__TransferFailed();
+     }
+
     /** Getter Function */
 
     function getEntranceFee() external view returns(uint256){
