@@ -24,6 +24,9 @@
 
 pragma solidity ^0.8.18;
 
+import {VRFCoordinatorV2Interface} from "@chainlink/contracts/src/v0.8/interfaces/VRFCoordinatorV2Interface.sol";
+import {VRFConsumerBaseV2} from "@chainlink/contracts/src/v0.8/VRFConsumerBaseV2.sol";
+
 /**
  * @title A sample Raffle contract
  * @author
@@ -31,7 +34,7 @@ pragma solidity ^0.8.18;
  * @dev Implements Chainlink VRFv2
  */
 
-contract Raffle {
+contract Raffle is VRFConsumerBaseV2 {
     error Raffle__NotEnoughEthSent();
     error Raffle__TransferFailed();
     error Raffle_RaffleNotOpen();
@@ -40,6 +43,7 @@ contract Raffle {
     /* Type declarations */
     enum RaffleState {
         OPEN,    //0
+        CLOSED,  // 1
         CALCULATING  // 1
         // 
 
