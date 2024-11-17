@@ -43,7 +43,6 @@ contract Raffle is VRFConsumerBaseV2 {
     /* Type declarations */
     enum RaffleState {
         OPEN,    //0
-        CLOSED,  // 1
         CALCULATING  // 1
         // 
 
@@ -71,7 +70,7 @@ contract Raffle is VRFConsumerBaseV2 {
 
    /** Events */
    event EnteredRaffle(address indexed player);
-
+   event PickedWinner(address indexed winner); 
     constructor(
         uint256 entranceFee, 
         uint256 interval,
@@ -134,10 +133,15 @@ function pickWinner() public {
      address payable winner = s_players[indexOfWinner];
      s_recentWinner = winner;
      s_raffeState = RaffleState.OPEN;
+     s_players = new address payable[](0);
+     s_lastTimeStamp = block.timestamp;
+
      (bool success,) = winner.call{value: address(this).balance}("");
      if(!success) {
         revert Raffle__TransferFailed();
      }
+
+     emit PickedWinner(winner); 
 
     /** Getter Function */
 
