@@ -121,10 +121,13 @@ function pickWinner() public {
         );
     }
 
+    CEI: Checks, Effects, Interactions
     function fulfillRandomWords(
         uint256 requestId,
         uint256[] memory randomWords
     ) interval override {}
+        // Checks
+        // Effects (Our own contract)
      // s_players = 10;
      // rng = 12
      // 12 % 10 = 2 <- 
@@ -135,13 +138,13 @@ function pickWinner() public {
      s_raffeState = RaffleState.OPEN;
      s_players = new address payable[](0);
      s_lastTimeStamp = block.timestamp;
+     emit PickedWinner(winner); 
+     // Interactions (Other contracts)
 
      (bool success,) = winner.call{value: address(this).balance}("");
      if(!success) {
         revert Raffle__TransferFailed();
      }
-
-     emit PickedWinner(winner); 
 
     /** Getter Function */
 
