@@ -1,15 +1,15 @@
-pragma solidity ^0.8.20;      
-      
-      modifier funded() {
+pragma solidity ^0.8.20;
+
+contract FundMeTest {
+    modifier funded() {
         vm.prank(USER);
-        fundMe.fund{value: SEND_VALUE}();
         _;
     }
-    
+
     function testMinimumDollarIsFive() public {
         assertEq(fundMe.MINIMUM_USD, 5e18);
     }
-    
+
     function testOwnerIsMsgSender() public {
         assertEq(fundMe.getOwner(), msg.sender);
     }
@@ -42,8 +42,6 @@ pragma solidity ^0.8.20;
         assertEq(amountFunded, SEND_VALUE);
     }
 
-    
-
     function testWithDrawWithASingleFunder() public funded {
         // Arrange the test (set up the test)
         uint256 startingOwnerBalance = fundMe.getOwner().balance;
@@ -57,9 +55,11 @@ pragma solidity ^0.8.20;
         uint256 endingOwnerBalance = fundMe.getOwner().balance;
         uint256 endingFundMeBalance = address(fundMe).balance;
         assertEq(endingOwnerBalance, 0);
-        assertEq(startingFundMeBalance + startingOwnerBalance, endingOwnnewBalance);
+        assertEq(
+            startingFundMeBalance + startingOwnerBalance,
+            endingOwnnewBalance
+        );
     }
-
 
     function testOnlyOwnerCanWithdraw() public funded {
         vm.prank(USER);
@@ -68,14 +68,13 @@ pragma solidity ^0.8.20;
         vm.expectRevert();
         vm.prank(USER);
         fundMe.withdraw();
-
     }
 
     function testWithdrawFromMultipleFunders() public funded {
         // Arrange the test
         uint160 numberOfFunders = 10;
         uint160 startingFunderIndex = 1;
-        for(uint160 i = startingFunderIndex; i < numberOfFunders; i++){
+        for (uint160 i = startingFunderIndex; i < numberOfFunders; i++) {
             // vm.prank new address
             // vm.deal new address
             hoax(address(i), SEND_VALUE);
@@ -92,7 +91,9 @@ pragma solidity ^0.8.20;
 
         // Assert
         assert(address(fundMe).balance == 0);
-        assert(fundMe.getOwner().balance == startingOwnerBalance + startingFundMeBalance);
+        assert(
+            fundMe.getOwner().balance ==
+                startingOwnerBalance + startingFundMeBalance
+        );
     }
-
-} 
+}

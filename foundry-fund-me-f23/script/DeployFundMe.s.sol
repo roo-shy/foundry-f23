@@ -10,7 +10,7 @@ import {HelpConfig} from "./HelperConfig.s.sol";
 
 contract DeployFundMe is Script {
     function run() external {
-        HelpConfig helperConfig = new Helperconfig();
+        HelpConfig helperConfig = new HelpConfig();
         address ethUsdPriceFeed = helperConfig.activeNetworkConfig();
 
         vm.startBroadcast();
