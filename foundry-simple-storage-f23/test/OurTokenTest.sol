@@ -43,4 +43,15 @@ contract OurTokenTest is Test {
         assertEq(ourToken.balanceOf(bob), STARTING_BALANCE - transferAmount); 
 
 
+        function testTransfer() public {
+            uint256 transferAmount = 500;
+
+            vm.prank(bob);
+            ourToken.transfer(alice, transferAmount);
+
+            assertEq(ourToken.balanceOf(alice), transferAmount);
+            assertEq(ourToken.balanceOf(bob), STARTING_BALANCE - transferAmount);
+        }
+
+
     }
