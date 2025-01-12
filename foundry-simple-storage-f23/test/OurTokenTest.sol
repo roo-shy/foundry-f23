@@ -44,14 +44,28 @@ contract OurTokenTest is Test {
 
 
         function testTransfer() public {
-            uint256 transferAmount = 500;
-
-            vm.prank(bob);
-            ourToken.transfer(alice, transferAmount);
-
-            assertEq(ourToken.balanceOf(alice), transferAmount);
-            assertEq(ourToken.balanceOf(bob), STARTING_BALANCE - transferAmount);
+            uint256 transferAmount = 1000;
+            address receiver = address(0x1);
+            ourToken.transfer(receiver, amount);
+            asserEq(ourToken.balanceOf(receiver), amount);
         }
 
+        function testBalanceAfterTransfer() public {
+            uint256 amount = 1000;
+            address receiver = address(0x1);
+            uint256 initialBalance = ourToken.balanceOf(address(this));
+            ourToken.transfer(receiver, amount);
+            assertEq(ourToken.balanceOf(address(this)), initialBalance - amount);
 
+        } 
+
+        function testTransferFrom() public {
+            uint256 transferAmount = 1000;   
+            address receiver = address(0x1);
+            ourToken.approve(address(this), amount);
+            ourToken.transferFrom(address(this), receiver, amount);
+            assertEq(ourToken.balanceOf(receiver), amount);
+
+        
+        }
     }
